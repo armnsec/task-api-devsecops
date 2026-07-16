@@ -1,0 +1,7 @@
+# CVE-2026-9538 — perl-archive-tar (Denial of Service via crafted tar header)
+# Status: fix_deferred upstream (no patched Debian package available yet).
+# Justification: Transitive OS package from Debian base image. This app is
+# a Python Flask service and never invokes Perl or Archive::Tar.
+# Not reachable / not exploitable in this context. Revisit when Debian
+# ships a fix.
+CVE-2026-9538

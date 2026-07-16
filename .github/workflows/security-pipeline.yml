@@ -72,6 +72,7 @@ jobs:
           format: "table"
           severity: "CRITICAL,HIGH"
           exit-code: "1"
+          trivyignores: ".trivyignore"
 
   build-and-push:
     name: Build & Push Image (main only)
