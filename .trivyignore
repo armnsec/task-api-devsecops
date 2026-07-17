@@ -1,7 +1,45 @@
-# CVE-2026-9538 — perl-archive-tar (Denial of Service via crafted tar header)
-# Status: fix_deferred upstream (no patched Debian package available yet).
-# Justification: Transitive OS package from Debian base image. This app is
-# a Python Flask service and never invokes Perl or Archive::Tar.
-# Not reachable / not exploitable in this context. Revisit when Debian
-# ships a fix.
-CVE-2026-9538
+# Trivy ignore file — every entry here must have a justification comment.
+# Do not add entries without review; this file is itself part of the audit trail.
+#
+# Context: All CVEs below are OS-level packages inherited from the
+# python:3.12-slim (Debian 13.6) base image. None of them have a
+# "Fixed Version" available yet (Debian has not shipped a patched
+# package). The application is a pure Python Flask REST API and does
+# not invoke perl, gzip, ncurses, or any util-linux/libblkid tooling
+# at runtime — these packages are present only as base-OS dependencies,
+# not part of the application's attack surface.
+#
+# Risk acceptance: Documented and accepted until upstream patches are
+# available. Revisit this file whenever the base image is rebuilt /
+# on a periodic (monthly) dependency review.
+
+# --- util-linux / libblkid family (CVE-2026-53615) ---
+# Integer Overflow in libblkid/src/partitions/dos.c. Affects bsdutils,
+# libblkid1, libsmartcols1, libuuid1, util-linux, mount, login.
+# App never parses disk partitions or calls blkid. Not reachable.
+CVE-2026-53615
+
+# --- gzip (CVE-2026-41992) ---
+# Buffer overflow in LZH decompression path. App does not invoke gzip
+# directly; only used internally by apt during image build.
+CVE-2026-41992
+
+# --- libacl1 (CVE-2026-54369) ---
+# Symlink traversal privilege escalation via libacl functions.
+# App runs as non-root user and does not use ACL syscalls.
+CVE-2026-54369
+
+# --- ncurses family (CVE-2025-69720) ---
+# Buffer overflow in ncurses. Affects libncursesw6, libtinfo6,
+# ncurses-base, ncurses-bin. App has no terminal UI / TTY interaction.
+CVE-2025-69720
+
+# --- perl-base / Perl interpreter (multiple CVEs) ---
+# App is Python-only; the Perl interpreter shipped with the Debian
+# base image is never executed by this application.
+CVE-2026-13221
+CVE-2026-42496
+CVE-2026-8376
+CVE-2026-42497
+CVE-2026-48962
+CVE-2026-57432
